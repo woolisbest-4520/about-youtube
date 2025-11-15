@@ -1,0 +1,31 @@
+    DOWNLOAD_SERVICES: {
+        COBALT: {
+            name: 'Cobalt',
+            endpoint: 'https://api.cobalt.tools/api/json',
+            method: 'POST',
+            enabled: true
+        },
+        Y2MATE: {
+            name: 'Y2Mate',
+            endpoints: [
+                'https://www.y2mate.com/mates/analyzeV2/ajax',
+                'https://www.y2mate.com/mates/convertV2/index'
+            ],
+            enabled: true
+        },
+        LOADER_TO: {
+            name: 'Loader.to',
+            endpoint: 'https://loader.to/ajax/download.php',
+            enabled: true
+        },
+        Y2DOWN: {
+            name: 'Y2Down',
+            endpoint: 'https://y2down.cc/api/ajaxSearch',
+            enabled: true
+        },
+        SAVEFROM: {
+            name: 'SaveFrom',
+            endpoint: 'https://worker.sf-tools.net/savefrom.net',
+            enabled: true
+        }
+    },
