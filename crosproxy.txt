@@ -1,0 +1,58 @@
+CrosProxy
+[
+    // AllOrigins系
+    'https://api.allorigins.win/raw?url=',
+    'https://api.allorigins.win/get?url=',
+
+    // CORS Anywhere系
+    'https://corsproxy.io/?',
+    'https://cors-anywhere.herokuapp.com/',
+
+    // CodeTabs系
+    'https://api.codetabs.com/v1/proxy?quest=',
+
+    // ThingProxy
+    'https://thingproxy.freeboard.io/fetch/',
+
+    // CORS.SH
+    'https://cors.sh/',
+
+    // Crossorigin.me
+    'https://crossorigin.me/',
+
+    // YACD (Yet Another CORS Proxy)
+    'https://yacd.hacker.af/cors/',
+
+    // Workers Dev (Cloudflare Workers)
+    'https://cors-proxy.fringe.zone/cors?url=',
+    'https://cors.bridged.cc/',
+
+    // JSON-P系
+    'https://jsonp.afeld.me/?url=',
+
+    // Codetabs alternative
+    'https://api.codetabs.com/v1/proxy/?quest=',
+
+    // Other public proxies
+    'https://proxy.cors.sh/',
+    'https://api.1pt.co/api/v1/proxy?url=',
+
+    // European servers
+    'https://cors-eu.herokuapp.com/',
+    'https://cors.eu.org/',
+
+    // Asian servers
+    'https://cors-asia.herokuapp.com/',
+
+    // US servers
+    'https://cors-us.herokuapp.com/',
+
+    // Additional reliable proxies
+    'https://api.proxyscrape.com/v2/?request=proxy&url=',
+    'https://proxy.techzbots1.workers.dev/?u=',
+    'https://test-cors.org/',
+
+    // Backup proxies
+    'https://cors-fetch.browserslist.workers.dev/?url=',
+    'https://api.scraperapi.com/?api_key=demo&url='
+];
