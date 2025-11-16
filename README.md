@@ -1,5 +1,5 @@
 ## woolisbest youtube
-# youtubeについてです。
+# youtubeについて
 ### youtubeeducationのパラメーターです。
 ２日に一回ほど更新します。
 ```
