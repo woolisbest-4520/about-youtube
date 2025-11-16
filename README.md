@@ -6,7 +6,8 @@
 https://youtubeeducation.com/embed{videoID}{parameter}
 ```
 のような形式で使ってください。
-サイトに組み込む場合は[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/parameter.json)です。
+サイトに組み込む場合は[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/parameter.json)か
+[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu.txt)です。
 ## ストリーム再生などのAPIです。
 ### invidious
 現在（11/15)使用可能なものです。
