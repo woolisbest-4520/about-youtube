@@ -3,7 +3,7 @@
 ### youtubeeducationのパラメーターです。
 ２日に一回ほど更新します。
 ```
-https://youtubeeducation.com/embed{videoID}{parameter}
+https://youtubeeducation.com/embed/{videoID}{parameter}
 ```
 のような形式で使ってください。
 サイトに組み込む場合は[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/parameter.json)か
