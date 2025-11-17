@@ -35,16 +35,16 @@ pipedのAPIです。[こちら](https://raw.githubusercontent.com/woolisbest-452
 ## youtube埋め込みのパラメーター解説
 ### 基本再生制御
 ```
-|パラメータ    |値の例|	説明|	現行ステータス
-|autoplay    	|0 / 1|	自動再生（※ミュートが必須）	有効
-|mute	        |0 / 1| ミュート再生	有効
-|controls	    |0 / 1| コントロールバー表示（0 は制限あり）	有効
-|loop	        |0 / 1|	ループ再生	有効（playlist 必須）
+|パラメータ 　 |値の例   |	説明|	現行ステータス
+|autoplay    	|0 / 1   |	自動再生（※ミュートが必須）	有効
+|mute	        |0 / 1   | ミュート再生	有効
+|controls	    |0 / 1   | コントロールバー表示（0 は制限あり）	有効
+|loop	        |0 / 1   |	ループ再生	有効（playlist 必須）
 |playlist    	|VIDEO_ID|	loop 用 or 複数動画	有効
-|start	      |秒数	開始位置	有効
-|end	        |秒数	終了位置	有効
-|playsinline	|0 / 1	スマホでインライン再生	有効
-|enablejsapi	|1	IFrame API 使用	有効
+|start	      |秒数    |	開始位置	有効
+|end	        |秒数    | 終了位置	有効
+|playsinline	|0 / 1   |	スマホでインライン再生	有効
+|enablejsapi	|1	     | IFrame API 使用	有効
 ```
 ### 表示設定
 ```
