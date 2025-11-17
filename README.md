@@ -8,6 +8,9 @@ https://youtubeeducation.com/embed/{videoID}{parameter}
 のような形式で使ってください。
 サイトに組み込む場合は[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/parameter.json)か
 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu.json)です。
+他の方が更新しているもの
+[幸せok](https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json)
+[わかめ](https://raw.githubusercontent.com/wakame02/wktopu/refs/heads/main/edu.text)
 ## ストリーム再生などのAPIです。
 ### invidious
 現在（11/15)使用可能なものです。
