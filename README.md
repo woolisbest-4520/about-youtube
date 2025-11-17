@@ -32,8 +32,6 @@ pipedのAPIです。[こちら](https://raw.githubusercontent.com/woolisbest-452
 
 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream.txt)
 
-## youtube埋め込みのパラメーター解説
-### 基本再生制御
 # YouTube 埋め込みパラメータ一覧（2025 最新）
 
 ## 基本再生制御
