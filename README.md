@@ -87,7 +87,7 @@ pipedのAPIです。[こちら](https://raw.githubusercontent.com/woolisbest-452
 <iframe
   width="560"
   height="315"
-  src="https://www.youtube.com/embed/VIDEO_ID?
+  src="https://www.youtube.com/embed/VIDEO_ID?(youtube-nocookie.comやyoutubeeducationでも良い)
     autoplay=1&
     mute=1&
     controls=1&
