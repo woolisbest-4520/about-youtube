@@ -34,6 +34,7 @@ pipedのAPIです。[こちら](https://raw.githubusercontent.com/woolisbest-452
 
 ## youtube埋め込みのパラメーター解説
 ### 基本再生制御
+```
 パラメータ	値の例	説明	現行ステータス
 autoplay	0 / 1	自動再生（※ミュートが必須）	有効
 mute	0 / 1	ミュート再生	有効
@@ -44,18 +45,24 @@ start	秒数	開始位置	有効
 end	秒数	終了位置	有効
 playsinline	0 / 1	スマホでインライン再生	有効
 enablejsapi	1	IFrame API 使用	有効
+```
 ### 表示設定
+```
 パラメータ	値の例	説明	現行ステータス
 modestbranding	1	YouTube ロゴを最小化	有効
 rel	0 / 1	関連動画（0でも同一チャンネルは出る）	仕様変更済だが動作
 iv_load_policy	1 / 3	動画の注釈（カード）表示設定	有効
 cc_load_policy	1	字幕を強制オン	有効
 color	red / white	コントロール色	一部のみ有効
+```
 ### 制限 / 操作制御
+```
 パラメータ	値の例	説明	現行ステータス
 fs	0 / 1	全画面ボタン制御	有効
 disablekb	0 / 1	キーボード操作を無効化	有効
+```
 ### 現在は無効 / 非推奨パラメータ
+```
 パラメータ	説明
 showinfo	再生前のタイトル非表示（廃止）
 autohide	コントロールバー自動隠し（廃止）
@@ -63,3 +70,4 @@ theme	dark / light のテーマ（廃止）
 version	古い Flash 系（廃止）
 rel=0（完全非表示）	現在は同チャンネル動画が表示される
 origin	IFrame API では自動付与になった
+```
