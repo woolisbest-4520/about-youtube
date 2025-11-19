@@ -1,5 +1,6 @@
 ## woolisbest youtube
 # youtubeについて
+利用するときはlssuesで言ってください（リポジトリのリンクもお願いします。）
 ### youtubeeducationのパラメーターです。
 ２日に一回ほど更新します。
 ```
