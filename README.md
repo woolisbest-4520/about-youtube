@@ -7,8 +7,8 @@
 https://youtubeeducation.com/embed/{videoID}{parameter}
 ```
 のような形式で使ってください。
-サイトに組み込む場合は[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/parameter.json)か
-[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu.json)です。
+サイトに組み込む場合は[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/parameter.json)か
+[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/edu.json)です。
 他の方が更新しているものです。
 
 [幸せok](https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json)
@@ -18,20 +18,20 @@ https://youtubeeducation.com/embed/{videoID}{parameter}
 ### invidious
 現在（11/15)使用可能なものです。
 
-javascriptで読み込めるように.jsonファイルにしてあります。 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/inv.json)
+javascriptで読み込めるように.jsonファイルにしてあります。 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/inv.json)
 
 現在(11/15)使用できないものです。
-使えないものなので.txt形式です。　[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/inv-no.txt)
+使えないものなので.txt形式です。　[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/inv-no.txt)
 
 ### pipedAPI
-pipedのAPIです。[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/piped.txt)
+pipedのAPIです。[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/piped.txt)
 
 ### 動画ダウンロード用のAPI（？）などです。
-[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/downloadAPI.txt)
+[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/downloadAPI.txt)
 ### ストリーム再生の取得用URLです。
 間違っていたらすいません。
 
-[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream.txt)
+[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/stream.txt)
 
 # YouTube 埋め込みパラメータ一覧（2025 最新）
 
