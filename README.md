@@ -7,6 +7,7 @@
 https://youtubeeducation.com/embed/{videoID}{parameter}
 ```
 のような形式で使ってください。
+# パラメーターの形式を変更しました。　確認してください。
 サイトに組み込む場合は
 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/parameter.txt)か
 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/edu.txt)です。
