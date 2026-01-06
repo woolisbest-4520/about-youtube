@@ -17,9 +17,17 @@ https://youtubeeducation.com/embed/{videoID}{parameter}
 
 他の方が更新しているものです。
 
-[幸せokさん](https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json)
+[幸せok](https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json)
 
-[わかめさん](https://raw.githubusercontent.com/wakame02/wktopu/refs/heads/main/edu.text)
+[わかめ](https://raw.githubusercontent.com/wakame02/wktopu/refs/heads/main/edu.text)
+
+[Toka_Kun_1](https://raw.githubusercontent.com/toka-kun/Education/refs/heads/main/keys/key1.json)
+
+[Toka_Kun_2](https://raw.githubusercontent.com/toka-kun/Education/refs/heads/main/keys/key2.json)
+
+[hgkf01001_1](https://raw.githubusercontent.com/70142-lgtm/hgkf-Tube/refs/heads/main/hgkf01001_1.txt)
+
+[hgkf01001_2](https://raw.githubusercontent.com/70142-lgtm/hgkf-Tube/refs/heads/main/hgkf01001_2.txt)
 ## ストリーム再生などのAPIです。
 ### invidious
 現在（11/15)使用可能なものです。
