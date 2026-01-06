@@ -12,12 +12,14 @@ https://youtubeeducation.com/embed/{videoID}{parameter}
 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/parameter.txt)か
 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/edu.txt)です。
 
-新しいものを追加しました。[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/ep.txt)
+新しいものを追加しました。
+[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/ep.txt)
+
 他の方が更新しているものです。
 
-[幸せok](https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json)
+[幸せokさん](https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json)
 
-[わかめ](https://raw.githubusercontent.com/wakame02/wktopu/refs/heads/main/edu.text)
+[わかめさん](https://raw.githubusercontent.com/wakame02/wktopu/refs/heads/main/edu.text)
 ## ストリーム再生などのAPIです。
 ### invidious
 現在（11/15)使用可能なものです。
