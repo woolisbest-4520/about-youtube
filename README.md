@@ -49,9 +49,6 @@ pipedのAPIです。[こちら](https://raw.githubusercontent.com/woolisbest-452
 
 # YouTube 埋め込みパラメータ一覧（2025 最新）
 
-YouTube の iframe 埋め込みで使用できるパラメータを、最新仕様に基づいて整理しています。  
-GitHub の README 用にレイアウト最適化済み。
-
 ---
 
 ## 🎛 基本再生コントロール
