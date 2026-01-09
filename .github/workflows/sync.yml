@@ -1,0 +1,49 @@
+name: Sync from site repo and wakame config
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *" # 毎時間実行
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout destination repo (this repo)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
+
+      - name: Checkout source repo (site)
+        uses: actions/checkout@v4
+        with:
+          repository: woolisbest4520/site
+          path: site
+          token: ${{ secrets.PAT }}
+
+      - name: Checkout wakame repo
+        uses: actions/checkout@v4
+        with:
+          repository: siawaseok3/wakame
+          path: wakame
+          token: ${{ secrets.PAT }}
+
+      - name: Sync selected files with rename
+        run: |
+          mkdir -p edu
+
+          # site → this repo
+          cp site/tube/education/form.txt edu/edu.txt
+          cp site/tube/education/site.txt edu/ep.txt
+
+          # wakame/video_config.json → edu/parameter.txt
+          jq -r '.params' wakame/video_config.json > edu/parameter.txt
+
+      - name: Commit & Push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff --cached --quiet || git commit -m "Sync from site repo and wakame config"
+          git push
