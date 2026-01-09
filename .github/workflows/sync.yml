@@ -18,7 +18,7 @@ jobs:
       - name: Checkout source repo (site)
         uses: actions/checkout@v4
         with:
-          repository: woolisbest4520/site
+          repository: woolisbest-4520/site
           path: site
           token: ${{ secrets.PAT }}
 
