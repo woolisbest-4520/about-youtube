@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>about-youtube</title>
+
+<style>
+  :root {
+    --main-color: #ff0000;
+    --loop-color: #065fd4;
+    --bg-color: #f9f9f9;
+    --card-color: #ffffff;
+    --text-color: #333;
+    --shadow-color: rgba(0,0,0,0.08);
+    --border-radius: 12px;
+    --link-color: #065fd4;
+  }
+  :root.dark {
+    --bg-color: #181818;
+    --card-color: #202020;
+    --text-color: #eaeaea;
+    --shadow-color: rgba(0,0,0,0.4);
+    --link-color: #3ea6ff;
+  }
+  @media (prefers-color-scheme: light) {
+    :root.auto {
+      --bg-color: #f9f9f9;
+      --card-color: #ffffff;
+      --text-color: #333;
+      --shadow-color: rgba(0,0,0,0.08);
+      --link-color: #065fd4;
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    :root.auto {
+      --bg-color: #181818;
+      --card-color: #202020;
+      --text-color: #eaeaea;
+      --shadow-color: rgba(0,0,0,0.4);
+      --link-color: #3ea6ff;
+    }
+  }
+
+  body {
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--text-color);
+    padding: 0.5rem;
+    margin: 0;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.6rem;
+    margin: 0.5rem 0 1rem 0;
+  }
+
+  .theme-switcher {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 0.3rem;
+  }
+
+  .layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  @media (min-width: 900px) {
+    .layout-main {
+      flex-direction: row;
+    }
+    .left, .right {
+      flex: 1;
+    }
+    .left { max-width: 65%; }
+    .right { max-width: 35%; }
+  }
+
+  .card {
+    background: var(--card-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    padding: 1rem;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* Input Wrapper for Clear Button Position */
+  .input-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  input[type="text"], select {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    background: var(--card-color);
+    color: var(--text-color);
+  }
+
+  select {
+    margin-bottom: 1rem;
+  }
+
+  /* Add padding to right so text doesn't hit the X button */
+  #videoUrlInput, #startTimeInput, #endTimeInput {
+    padding-right: 2.5rem;
+  }
+
+  /* Clear Button Style */
+  .clear-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    background: transparent;
+    color: #999;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    display: none; /* Initially hidden */
+    line-height: 1;
+    height: 80%;
+    border-radius: 4px;
+  }
+
+  .clear-btn:hover {
+    color: var(--text-color);
+    background-color: rgba(128, 128, 128, 0.1);
+    opacity: 1;
+  }
+
+  /* Main Buttons */
+  .action-btn {
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .action-btn:hover {
+    opacity: 0.9;
+  }
+  .action-btn:active {
+    transform: scale(0.98);
+  }
+
+  .btn-loop {
+    background-color: var(--loop-color);
+    margin-top: 0.8rem;
+  }
+
+  #videoContainer {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+  }
+
+  iframe, img.thumbnail-display {
+    width: 100%;
+    height: 100%;
+    border: none;
+    object-fit: contain;
+  }
+
+  .time-inputs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .time-inputs > div {
+    flex: 1;
+  }
+
+  /* --- コメント欄 --- */
+  .comments-wrapper summary {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    outline: none;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .comments-wrapper summary::-webkit-details-marker {
+    display: none;
+  }
+  .comments-wrapper summary::after {
+    content: '+'; 
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+  .comments-wrapper details[open] summary::after {
+    content: '-';
+  }
+
+  .comment-list {
+    margin-top: 1rem;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+  }
+
+  .comment-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+    padding-bottom: 1rem;
+  }
+
+  .comment-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .comment-content {
+    flex: 1;
+    overflow-wrap: anywhere;
+  }
+
+  .comment-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  .author-name {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--text-color);
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .published-date {
+    color: #888;
+    font-size: 0.85rem;
+  }
+
+  .edited-mark {
+    color: #888;
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+
+  .comment-text {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin: 0.3rem 0;
+  }
+
+  .comment-text a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+  .comment-text a:hover {
+    text-decoration: underline;
+  }
+
+  .timestamp-link {
+    color: var(--link-color);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .timestamp-link:hover {
+    text-decoration: underline;
+  }
+
+  .comment-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .creator-heart {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .creator-heart img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  .heart-icon {
+    color: #ff0000;
+    font-size: 0.9rem;
+    position: relative;
+  }
+  .heart-badge-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  .heart-badge-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -4px;
+    font-size: 10px;
+  }
+
+  .badge-pinned, .badge-owner {
+    background-color: #606060 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  :root.dark .badge-pinned,
+  :root.dark .badge-owner {
+    background-color: #888888 !important;
+    color: #181818 !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="theme-switcher">
+  <select id="themeSelect" onchange="changeTheme(this.value)">
+    <option value="auto">自動</option>
+    <option value="light">ライト</option>
+    <option value="dark">ダーク</option>
+  </select>
+</div>
+
+<h1>about-youtube</h1>
+
+<div class="layout layout-main">
+
+  <div class="left">
+    <div id="videoContainer"></div>
+  </div>
+
+  <div class="right">
+    <div class="card">
+
+      <label>使用する再生方法：</label>
+      <select id="paramSource">
+        <optgroup label="埋め込み再生">
+            <option value="Nocookie">Nocookie</option>
+            <option value="Education - wakame">Education - wakame</option>
+            <option value="Education - siawaseok">Education - siawaseok</option>
+            <option value="Education - woolisbest4520-1">Education - woolisbest4520-1</option>
+            <option value="Education - woolisbest4520-2">Education - woolisbest4520-2</option>
+            <option value="Education - woolisbest4520-3">Education - woolisbest4520-3</option>
+            <option value="Education - Toka_Kun_-1">Education - Toka_Kun_-1</option>
+            <option value="Education - Toka_Kun_-2">Education - Toka_Kun_-2</option>
+            <option value="Education - hgkf01001_1">Education - hgkf01001_1</option>
+            <option value="Education - hgkf01001_2">Education - hgkf01001_2</option>
+        </optgroup>
+        
+        <optgroup label="サムネイル - img.youtube.com">
+            <option value="Thumbnail-img-maxresdefault">img - maxresdefault</option>
+            <option value="Thumbnail-img-sddefault">img - sddefault</option>
+            <option value="Thumbnail-img-hqdefault">img - hqdefault</option>
+            <option value="Thumbnail-img-mqdefault">img - mqdefault</option>
+            <option value="Thumbnail-img-default">img - default</option>
+        </optgroup>
+        
+        <optgroup label="サムネイル - i.ytimg.com">
+            <option value="Thumbnail-i-maxresdefault">i.ytimg - maxresdefault</option>
+            <option value="Thumbnail-i-sddefault">i.ytimg - sddefault</option>
+            <option value="Thumbnail-i-hqdefault">i.ytimg - hqdefault</option>
+            <option value="Thumbnail-i-mqdefault">i.ytimg - mqdefault</option>
+            <option value="Thumbnail-i-default">i.ytimg - default</option>
+      </select>
+
+      <label>YouTubeのURLまたは動画IDを入力：</label>
+      <div class="input-wrapper">
+        <input type="text" id="videoUrlInput" placeholder="例: https://youtu.be/HRlW6yZo6Kc?list=PLxxx..." />
+        <button id="btnClearInput" class="clear-btn" aria-label="クリア">×</button>
+      </div>
+
+      <div class="time-inputs">
+        <div>
+          <label for="startTimeInput">開始位置</label>
+          <div class="input-wrapper">
+            <input type="text" id="startTimeInput" placeholder="例: 1:30, 90" />
+            <button id="btnClearStart" class="clear-btn" aria-label="クリア">×</button>
+          </div>
+        </div>
+        <div>
+          <label for="endTimeInput">終了位置</label>
+          <div class="input-wrapper">
+            <input type="text" id="endTimeInput" placeholder="例: 2:00, 120" />
+            <button id="btnClearEnd" class="clear-btn" aria-label="クリア">×</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="btnPlay" class="action-btn" onclick="loadVideo(false)">▶️ 再生</button>
+      <button id="btnLoop" class="action-btn btn-loop" onclick="loadVideo(true)">🔁 ループ再生</button>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="layout" style="margin-top: 1rem;">
+  <div class="card comments-wrapper">
+    <details open>
+      <summary>コメント <span id="commentCountBadge"></span></summary>
+      <div id="commentsContainer" class="comment-list">
+        <p style="text-align:center; color:#888;">動画を再生するとここにコメントが表示されます。</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<script>
+  // --- YouTube IFrame Player API ---
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var player = null;
+  var currentLoadedVideoId = null;
+
+  // パラメータURLの定義（新しく追加）
+  const URLS = {
+    "Nocookie": null,
+    "Education - wakame": "https://raw.githubusercontent.com/wakame02/wktopu/refs/heads/main/edu.text",
+    "Education - siawaseok": "https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json",
+    "Education - woolisbest4520-1": "https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/edu.txt",
+    "Education - woolisbest4520-2": "https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/parameter.txt",
+    "Education - woolisbest4520-3": "https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/ep.txt",
+    "Education - Toka_Kun_-1": "https://raw.githubusercontent.com/toka-kun/Education/refs/heads/main/keys/key1.json",
+    "Education - Toka_Kun_-2": "https://raw.githubusercontent.com/toka-kun/Education/refs/heads/main/keys/key2.json",
+    // 新しく追加したパラメータ
+    "Education - hgkf01001_1": "https://raw.githubusercontent.com/70142-lgtm/hgkf-Tube/refs/heads/main/hgkf01001_1.txt",
+    "Education - hgkf01001_2": "https://raw.githubusercontent.com/70142-lgtm/hgkf-Tube/refs/heads/main/hgkf01001_2.txt"
+  };
+
+  // --- テーマ切り替え ---
+  function applyTheme(mode) {
+    document.documentElement.classList.remove("light", "dark", "auto");
+    document.documentElement.classList.add(mode);
+  }
+  function changeTheme(mode) {
+    applyTheme(mode);
+    localStorage.setItem("themeMode", mode);
+  }
+  // 保存されたテーマを適用
+  const savedTheme = localStorage.getItem("themeMode") || "auto";
+  applyTheme(savedTheme);
+  document.getElementById("themeSelect").value = savedTheme;
+
+  // --- URLパラメータから復元 ---
+  function restoreStateFromUrl() {
+    const hash = window.location.hash;
+    if (!hash || hash.length < 2) return;
+    const queryString = hash.replace(/^#\??/, '');
+    const params = new URLSearchParams(queryString);
+    const v = params.get('v');
+    const list = params.get('list');
+    const start = params.get('start');
+    const end = params.get('end');
+
+    if (v) {
+      let urlValue = `https://www.youtube.com/watch?v=${v}`;
+      if (list) {
+        urlValue += `&list=${list}`;
+      }
+      const urlInput = document.getElementById("videoUrlInput");
+      urlInput.value = urlValue;
+      urlInput.dispatchEvent(new Event('input'));
+    }
+    if (start) {
+      document.getElementById("startTimeInput").value = start;
+      document.getElementById("startTimeInput").dispatchEvent(new Event('input'));
+    }
+    if (end) {
+      document.getElementById("endTimeInput").value = end;
+      document.getElementById("endTimeInput").dispatchEvent(new Event('input'));
+    }
+  }
+  window.addEventListener('DOMContentLoaded', restoreStateFromUrl);
+
+  // --- 入力欄のクリアとEnter処理設定 ---
+  const inputGroups = [
+    { inputId: "videoUrlInput", btnId: "btnClearInput" },
+    { inputId: "startTimeInput", btnId: "btnClearStart" },
+    { inputId: "endTimeInput", btnId: "btnClearEnd" }
+  ];
+
+  function setupInputControl(group) {
+    const input = document.getElementById(group.inputId);
+    const btn = document.getElementById(group.btnId);
+    if (!input || !btn) return;
+    const toggleBtn = () => {
+      btn.style.display = input.value.length > 0 ? "block" : "none";
+    };
+    input.addEventListener("input", toggleBtn);
+    btn.addEventListener("click", () => {
+      input.value = "";
+      input.focus();
+      toggleBtn();
+    });
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        loadVideo(false);
+      }
+    });
+    input.checkClearButton = toggleBtn;
+  }
+  inputGroups.forEach(setupInputControl);
+  document.getElementById("videoUrlInput").focus();
+
+  // パラメータ抽出関数
+  function extractVideoId(input) {
+    if (!input) return null;
+    const patterns = [
+      /[?&]v=([\w-]{11})/, // URLパラメータ
+      /(?:youtu\.be|embed|shorts|live|vi|videos|watch|video|stream|streams|wkt\/watch|wkt\/yt\/edu|wkt\/yt\/nocookie)\/([\w-]{11})/ // パス
+    ];
+    for (const p of patterns) {
+      const m = input.match(p);
+      if (m) return m[1];
+    }
+    if (/^[\w-]{11}$/.test(input)) return input;
+    return null;
+  }
+  function extractListId(input) {
+    if (!input) return null;
+    const m = input.match(/[?&](?:list|playlist)=([a-zA-Z0-9_-]+)/);
+    return m ? m[1] : null;
+  }
+  function convertToSeconds(input) {
+    if (!input) return null;
+    const str = input.replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xFEE0)).replace(/：/g, ':').trim();
+    if (!str) return null;
+    if (str.includes(':')) {
+      const parts = str.split(':').map(Number);
+      if (parts.some(isNaN)) return null;
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+    }
+    const val = parseInt(str, 10);
+    return isNaN(val) ? null : val;
+  }
+  function updateUrlParam(url, key, value) {
+    const regex = new RegExp(`([?&])(?:amp;)?${key}=[^&]*`, 'gi');
+    if (regex.test(url)) {
+      return url.replace(regex, (match, separator) => `${separator}${key}=${value}`);
+    }
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}${key}=${value}`;
+  }
+
+  // --- コメント取得 ---
+  async function fetchComments(videoId) {
+    const container = document.getElementById("commentsContainer");
+    const countBadge = document.getElementById("commentCountBadge");
+    container.innerHTML = '<p style="text-align:center;">読み込み中...</p>';
+    countBadge.innerText = '';
+    try {
+      const res = await fetch(`https://min-tube-api-3.vercel.app/api/comments/${videoId}`);
+      if (!res.ok) throw new Error("API Error");
+      const data = await res.json();
+      if (!data.comments || data.comments.length === 0) {
+        container.innerHTML = '<p style="text-align:center;">コメントが見つかりませんでした。</p>';
+        return;
+      }
+      countBadge.innerText = `(${data.commentCount || data.comments.length})`;
+      let html = '';
+      data.comments.forEach(c => {
+        const iconUrl = (c.authorThumbnails && c.authorThumbnails.length > 0) ? c.authorThumbnails[0].url : '';
+        let badges = '';
+        if (c.isPinned) badges += `<span class="badge badge-pinned">固定済み</span>`;
+        if (c.authorIsChannelOwner) badges += `<span class="badge badge-owner">所有者</span>`;
+        let editedHtml = '';
+        if (c.isEdited) editedHtml = `<span class="edited-mark">(編集済み)</span>`;
+        let replyCountHtml = '';
+        if (c.replies && c.replies.replyCount) {
+          const count = Number(c.replies.replyCount);
+          if (count > 0) replyCountHtml = `<span style="margin-left">💬 ${count}</span>`;
+        }
+        let heartHtml = '';
+        if (c.creatorHeart) {
+          const ownerThumb = c.creatorHeart.creatorThumbnail || iconUrl; 
+          heartHtml = `
+            <div class="creator-heart">
+              <div class="heart-badge-wrapper">
+                <img src="${ownerThumb}" alt="Owner"/>
+                <span class="heart-badge-icon">❤️</span>
+              </div>
+              <span>${c.creatorHeart.creatorName || '所有者'} がハートを付けました</span>
+            </div>
+          `;
+        }
+        let safeHtml = sanitizeHTML(c.contentHtml);
+        safeHtml = safeHtml.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+        const processedContent = parseTimestamp(safeHtml);
+        html += `
+          <div class="comment-item">
+            <div class="comment-avatar">
+              <a href="https://www.youtube.com${c.authorUrl}" target="_blank">
+                <img src="${iconUrl}" alt="${c.author}"/>
+              </a>
+            </div>
+            <div class="comment-content">
+              <div class="comment-header">
+                <a href="https://www.youtube.com${c.authorUrl}" target="_blank" class="author-name">${c.author}</a>
+                ${badges}
+                <span class="published-date">${c.publishedText}</span>
+                ${editedHtml}
+              </div>
+              <div class="comment-text">
+                ${processedContent}
+              </div>
+              <div class="comment-footer">
+                <div class="footer-actions">
+                  <span>👍 ${c.likeCount}</span>
+                  ${replyCountHtml}
+                </div>
+                ${heartHtml}
+              </div>
+            </div>
+          </div>`;
+      });
+      container.innerHTML = html;
+    } catch (e) {
+      console.error(e);
+      container.innerHTML = '<p style="text-align:center; color:red;">コメントの取得に失敗しました。</p>';
+    }
+  }
+
+  // --- 動画読み込み ---
+  async function loadVideo(isLoop = false) {
+    const btnPlay = document.getElementById("btnPlay");
+    const btnLoop = document.getElementById("btnLoop");
+    const input = document.getElementById("videoUrlInput").value.trim();
+    if (!input) {
+      alert("URLまたは動画IDを入力してください。");
+      return;
+    }
+
+    // ボタン状態リセット
+    document.getElementById("btnPlay").innerText = "▶️ 再生";
+    document.getElementById("btnLoop").innerText = "🔁 ループ再生";
+
+    if (player) {
+      try { player.destroy(); } catch(e) {}
+      player = null;
+    }
+    document.getElementById("videoContainer").innerHTML = '';
+
+    const source = document.getElementById("paramSource").value;
+    const videoId = extractVideoId(input);
+    const listId = extractListId(input);
+    if (!videoId) {
+      alert("正しいURLまたは動画IDを入力してください。");
+      return;
+    }
+
+    // コメントの取得
+    if (currentLoadedVideoId !== videoId) {
+      currentLoadedVideoId = videoId;
+      fetchComments(videoId);
+    }
+
+    if (source.startsWith("Thumbnail-")) {
+      if (isLoop) {
+        alert("サムネイル（画像）はループ再生できません。");
+        return;
+      }
+      const isImg = source.startsWith("Thumbnail-img-");
+      const quality = source.replace(isImg ? "Thumbnail-img-" : "Thumbnail-i-", "");
+      const domain = isImg ? "img.youtube.com" : "i.ytimg.com";
+      const img = document.createElement("img");
+      img.className = "thumbnail-display";
+      img.src = `https://${domain}/vi/${videoId}/${quality}.jpg`;
+      document.getElementById("videoContainer").appendChild(img);
+      return;
+    }
+
+    const iframe = document.createElement("iframe");
+    iframe.id = "videoFrame";
+    iframe.allowFullscreen = true;
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    document.getElementById("videoContainer").appendChild(iframe);
+
+    const startInput = document.getElementById("startTimeInput").value;
+    const endInput = document.getElementById("endTimeInput").value;
+    const startSeconds = convertToSeconds(startInput);
+    const endSeconds = convertToSeconds(endInput);
+    let finalUrl = '';
+
+    try {
+      if (source === "Nocookie") {
+        finalUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=0`;
+      } else {
+        const r = await fetch(URLS[source], { cache: "no-store" });
+        if (!r.ok) throw new Error("取得失敗");
+        let params = "";
+        if (source === "Education - wakame") {
+          params = await r.text();
+        } else if (source === "Education - siawaseok") {
+          params = (await r.json()).params || "";
+        } else if (source.startsWith("Education - woolisbest")) {
+          params = await r.text();
+        } else if (source.startsWith("Education - Toka_Kun")) {
+          params = (await r.json()).result || "";
+        } else if (source.startsWith("Education - hgkf01001")) {
+          // 新しく追加したパラメータの処理（テキストファイルとして取得）
+          params = await r.text();
+        }
+        finalUrl = `https://www.youtubeeducation.com/embed/${videoId}${params}`;
+      }
+    } catch (e) {
+      console.error(e);
+      alert("設定の取得に失敗しました。");
+      return;
+    }
+
+    if (listId) {
+      if (listId === videoId) {
+        finalUrl = updateUrlParam(finalUrl, 'playlist', listId);
+      } else {
+        finalUrl = updateUrlParam(finalUrl, 'list', listId);
+      }
+    } else {
+      finalUrl = updateUrlParam(finalUrl, 'playlist', videoId);
+    }
+
+    if (isLoop) {
+      finalUrl = updateUrlParam(finalUrl, 'loop', '1');
+    }
+
+    if (startSeconds !== null) finalUrl = updateUrlParam(finalUrl, 'start', startSeconds);
+    if (endSeconds !== null) finalUrl = updateUrlParam(finalUrl, 'end', endSeconds);
+    finalUrl = updateUrlParam(finalUrl, 'enablejsapi', '1');
+    finalUrl = updateUrlParam(finalUrl, 'origin', window.location.origin);
+
+    iframe.onload = () => {
+      initYouTubePlayer();
+    };
+    iframe.src = finalUrl;
+
+    // URLをハッシュに反映
+    try {
+      const hashParams = new URLSearchParams();
+      hashParams.set('v', videoId);
+      if (listId && listId !== videoId) {
+        hashParams.set('list', listId);
+      } else {
+        hashParams.set('playlist', videoId);
+      }
+      const startVal = document.getElementById("startTimeInput").value;
+      const endVal = document.getElementById("endTimeInput").value;
+      if (startVal) hashParams.set('start', startVal);
+      if (endVal) hashParams.set('end', endVal);
+      const newHash = "#?" + hashParams.toString();
+      history.replaceState(null, '', newHash);
+    } catch(e) { console.error("URL更新失敗", e); }
+  }
+
+  // --- YouTube Player API ---
+  function initYouTubePlayer() {
+    if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') return;
+    try {
+      player = new YT.Player('videoFrame', {
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    } catch(e) {
+      console.error("Player初期化失敗", e);
+    }
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.BUFFERING) {
+      if (event.target && event.target.getVideoData) {
+        const data = event.target.getVideoData();
+        if (data && data.video_id && data.video_id !== currentLoadedVideoId) {
+          currentLoadedVideoId = data.video_id;
+          fetchComments(currentLoadedVideoId);
+        }
+      }
+    }
+  }
+
+  // --- ユーティリティ関数 ---
+  function sanitizeHTML(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const dangerousTags = ['script', 'iframe', 'object', 'embed', 'form', 'style', 'meta', 'link'];
+    dangerousTags.forEach(tag => {
+      div.querySelectorAll(tag).forEach(el => el.remove());
+    });
+    Array.from(div.querySelectorAll('*')).forEach(el => {
+      Array.from(el.attributes).forEach(attr => {
+        if (attr.name.startsWith('on') || (attr.value && attr.value.toLowerCase().includes('javascript:'))) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+    return div.innerHTML;
+  }
+
+  function parseTimestamp(text) {
+    const regex = /\b(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\b/g;
+    return text.replace(regex, (match, h, m, s) => {
+      let seconds = 0;
+      if (h) seconds += parseInt(h) * 3600;
+      seconds += parseInt(m) * 60;
+      seconds += parseInt(s);
+      return `<a class="timestamp-link" onclick="seekVideo(${seconds}); return false;">${match}</a>`;
+    });
+  }
+  
+  function seekVideo(seconds) {
+    if (player && typeof player.seekTo === 'function') {
+      player.seekTo(seconds, true);
+      return;
+    }
+    const frame = document.getElementById("videoFrame");
+    if (!frame) return;
+    let src = frame.src;
+    if (!src || src.includes("img.youtube.com") || src.includes("i.ytimg.com") || src === "about:blank") return;
+    const newSrc = updateUrlParam(src, 'start', seconds);
+    if (src !== newSrc) frame.src = newSrc;
+  }
+
+  // --- 初期化 ---
+  (function() {
+    // 保存された再生方法の復元
+    const savedSource = localStorage.getItem("preferredSource");
+    if (savedSource) {
+      const sourceSelect = document.getElementById("paramSource");
+      const optionExists = Array.from(sourceSelect.options).some(opt => opt.value === savedSource);
+      if (optionExists) {
+        sourceSelect.value = savedSource;
+      }
+    }
+    
+    // 選択変更時に保存
+    document.getElementById("paramSource").addEventListener("change", function() {
+      localStorage.setItem("preferredSource", this.value);
+    });
+    
+    // 入力欄のクリアボタン初期状態チェック
+    setTimeout(() => {
+      inputGroups.forEach(group => {
+        const input = document.getElementById(group.inputId);
+        if (input && input.checkClearButton) {
+          input.checkClearButton();
+        }
+      });
+    }, 100);
+  })();
+</script>
+</body>
+</html>
