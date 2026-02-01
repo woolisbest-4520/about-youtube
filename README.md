@@ -1,132 +1,149 @@
-## woolisbest youtube
-# youtubeについて
-利用するときはlssuesで言ってください（リポジトリのリンクもお願いします。）
-### youtubeeducationのパラメーターです。
-２日に一回ほど更新します。
-```
+about-youtube / youtubeeducation
+================================
+
+YouTube 埋め込み・ストリーム再生・代替 API 情報まとめ
+youtubeeducation を中心としたパラメータ・API 管理用テキスト
+
+--------------------------------
+【利用上の注意】
+--------------------------------
+・利用時は必ず Issues で連絡してください
+・使用先のリポジトリ URL を明記してください
+・パラメータ / API は頻繁に更新されます（目安：2日に1回）
+
+--------------------------------
+【youtubeeducation 埋め込み形式】
+--------------------------------
 https://youtubeeducation.com/embed/{videoID}{parameter}
-```
-のような形式で使ってください。
-# パラメーターの形式を変更しました。　確認してください。
-サイトに組み込む場合は
-[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/parameter.txt)か
-[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/edu.txt)です。
 
-新しいものを追加しました。
-[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/ep.txt)
+例：
+https://youtubeeducation.com/embed/VIDEO_ID?autoplay=1&mute=1
 
-他の方が更新しているものです。
+--------------------------------
+【youtubeeducation パラメータ定義】
+--------------------------------
 
-[幸せok](https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json)
+▼ parameter.txt
+GitHub Raw:
+https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/parameter.txt
 
-[わかめ](https://raw.githubusercontent.com/wakame02/wktopu/refs/heads/main/edu.text)
+jsDelivr:
+https://cdn.jsdelivr.net/gh/woolisbest-4520/about-youtube@main/edu/parameter.txt
 
-[Toka_Kun_1](https://raw.githubusercontent.com/toka-kun/Education/refs/heads/main/keys/key1.json)
+GitHack:
+https://raw.githack.com/woolisbest-4520/about-youtube/main/edu/parameter.txt
 
-[Toka_Kun_2](https://raw.githubusercontent.com/toka-kun/Education/refs/heads/main/keys/key2.json)
 
-[hgkf01001_1](https://raw.githubusercontent.com/70142-lgtm/hgkf-Tube/refs/heads/main/hgkf01001_1.txt)
+▼ edu.txt
+GitHub Raw:
+https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/edu.txt
 
-[hgkf01001_2](https://raw.githubusercontent.com/70142-lgtm/hgkf-Tube/refs/heads/main/hgkf01001_2.txt)
-## ストリーム再生などのAPIです。
-### invidious
-現在（11/15)使用可能なものです。
+jsDelivr:
+https://cdn.jsdelivr.net/gh/woolisbest-4520/about-youtube@main/edu/edu.txt
 
-javascriptで読み込めるように.jsonファイルにしてあります。 [こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/inv.json)
+GitHack:
+https://raw.githack.com/woolisbest-4520/about-youtube/main/edu/edu.txt
 
-現在(11/15)使用できないものです。
-使えないものなので.txt形式です。　[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/inv-no.txt)
 
-### pipedAPI
-pipedのAPIです。[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/piped.txt)
+▼ ep.txt（新規追加）
+GitHub Raw:
+https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/edu/ep.txt
 
-### 動画ダウンロード用のAPI（？）などです。
-[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/downloadAPI.txt)
-### ストリーム再生の取得用URLです。
-間違っていたらすいません。
+jsDelivr:
+https://cdn.jsdelivr.net/gh/woolisbest-4520/about-youtube@main/edu/ep.txt
 
-[こちら](https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/stream.txt)
+GitHack:
+https://raw.githack.com/woolisbest-4520/about-youtube/main/edu/ep.txt
 
-# YouTube 埋め込みパラメータ一覧（2025 最新）
+--------------------------------
+【他ユーザー管理（本リポジトリ外）】
+--------------------------------
 
----
+▼ 幸せok
+https://raw.githubusercontent.com/siawaseok3/wakame/master/video_config.json
 
-## 🎛 基本再生コントロール
+▼ わかめ
+https://raw.githubusercontent.com/wakame02/wktopu/refs/heads/main/edu.text
 
-| パラメータ | 値の例 | 説明 | 現行ステータス |
-|------------|--------|-------|----------------|
-| `autoplay` | 0 / 1 | 自動再生（※ミュート必須） | ✔ 有効 |
-| `mute` | 0 / 1 | ミュート再生 | ✔ 有効 |
-| `controls` | 0 / 1 | コントロールバー表示（0 は一部無効） | ✔ 有効 |
-| `loop` | 0 / 1 | ループ再生 | ✔ 有効（`playlist` 必須） |
-| `playlist` | VIDEO_ID | ループ元 / プレイリスト | ✔ 有効 |
-| `start` | 秒数 | 再生開始位置 | ✔ 有効 |
-| `end` | 秒数 | 再生終了位置 | ✔ 有効 |
-| `playsinline` | 0 / 1 | スマホでインライン再生 | ✔ 有効 |
-| `enablejsapi` | 1 | IFrame API 使用許可 | ✔ 有効 |
+▼ Toka_Kun
+https://raw.githubusercontent.com/toka-kun/Education/refs/heads/main/keys/key1.json
+https://raw.githubusercontent.com/toka-kun/Education/refs/heads/main/keys/key2.json
 
----
+▼ hgkf01001
+https://raw.githubusercontent.com/70142-lgtm/hgkf-Tube/refs/heads/main/hgkf01001_1.txt
+https://raw.githubusercontent.com/70142-lgtm/hgkf-Tube/refs/heads/main/hgkf01001_2.txt
 
-## 🎨 表示設定
+--------------------------------
+【ストリーム再生 / API】
+--------------------------------
 
-| パラメータ | 値の例 | 説明 | 現行ステータス |
-|------------|--------|-------|----------------|
-| `modestbranding` | 1 | YouTube ロゴを最小化 | ✔ 有効 |
-| `rel` | 0 / 1 | 関連動画（0 でも同チャンネル動画は表示） | ▣ 仕様変更により部分有効 |
-| `iv_load_policy` | 1 / 3 | 注釈（Info カード）表示設定 | ✔ 有効 |
-| `cc_load_policy` | 1 | 字幕を強制オン | ✔ 有効 |
-| `color` | red / white | プレイヤー UI の色 | ▣ 一部のみ有効 |
+▼ Invidious（使用可能：11/15 時点）
+GitHub Raw:
+https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/inv.json
 
----
+jsDelivr:
+https://cdn.jsdelivr.net/gh/woolisbest-4520/about-youtube@main/stream/inv.json
 
-## 🧰 再生制限・操作制御
+GitHack:
+https://raw.githack.com/woolisbest-4520/about-youtube/main/stream/inv.json
 
-| パラメータ | 値の例 | 説明 | 現行ステータス |
-|------------|--------|-------|----------------|
-| `fs` | 0 / 1 | 全画面ボタンの有無 | ✔ 有効 |
-| `disablekb` | 0 / 1 | キーボード操作を無効化 | ✔ 有効 |
 
----
+▼ Invidious（使用不可）
+https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/inv-no.txt
 
-## ❌ 廃止 / 無効化されたパラメータ
 
-| パラメータ | 説明 |
-|------------|------|
-| `showinfo` | タイトル非表示（廃止） |
-| `autohide` | コントロール自動非表示（廃止） |
-| `theme` | dark / light テーマ（廃止） |
-| `version` | Flash 時代のパラメータ |
-| `rel=0`（完全非表示） | 現在は完全オフ不可能 |
-| `origin` | IFrame API 使用時は自動付与のため不要 |
+▼ Piped API
+GitHub Raw:
+https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/piped.txt
 
----
+jsDelivr:
+https://cdn.jsdelivr.net/gh/woolisbest-4520/about-youtube@main/stream/piped.txt
 
-## 📦 すべてのパラメータ入り iframe サンプル
+GitHack:
+https://raw.githack.com/woolisbest-4520/about-youtube/main/stream/piped.txt
 
-<details>
-<summary>クリックして展開</summary>
 
-```html
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/VIDEO_ID?
-    autoplay=1&
-    mute=1&
-    controls=1&
-    loop=1&
-    playlist=VIDEO_ID&
-    start=10&
-    end=60&
-    playsinline=1&
-    modestbranding=1&
-    rel=0&
-    cc_load_policy=1&
-    iv_load_policy=3&
-    fs=1&
-    disablekb=0&
-    enablejsapi=1"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen
-></iframe>
+▼ 動画ダウンロード用 API（参考）
+https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/downloadAPI.txt
+
+
+▼ ストリーム取得 URL（参考・未検証）
+https://raw.githubusercontent.com/woolisbest-4520/about-youtube/refs/heads/main/stream/stream.txt
+
+--------------------------------
+【YouTube 埋め込みパラメータ（2025）】
+--------------------------------
+
+有効：
+autoplay (mute 必須)
+mute
+controls
+loop（playlist 必須）
+playlist
+start / end
+playsinline
+enablejsapi
+modestbranding
+iv_load_policy
+cc_load_policy
+fs
+disablekb
+
+部分有効：
+rel
+color
+
+廃止・無効：
+showinfo
+autohide
+theme
+version
+完全な rel=0
+origin
+
+--------------------------------
+【注意】
+--------------------------------
+・jsDelivr はキャッシュされます（即時反映されない場合あり）
+・GitHack は表示・埋め込み用途向け
+・最新性が必要な場合は GitHub Raw を推奨
