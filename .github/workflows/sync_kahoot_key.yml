@@ -1,0 +1,93 @@
+name: Sync Kahoot Key
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *" # 毎時実行（UTC）
+
+jobs:
+  sync-key:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
+          fetch-depth: 0
+
+      - name: Checkout site repo
+        uses: actions/checkout@v4
+        with:
+          repository: woolisbest-4520/site
+          path: site
+          token: ${{ secrets.PAT }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate Kahoot parameters
+        run: |
+          python - << 'EOF'
+          import json, urllib.parse, os
+
+          # 1. site リポから key を読み込む
+          key_path = "site/tube/education/kahoot/key.txt"
+          if not os.path.exists(key_path):
+              print("Error: key.txt not found")
+              exit(1)
+
+          with open(key_path, "r") as f:
+              key_value = f.read().strip()
+
+          print(f"Loaded key: {key_value[:4]}... (hidden)")
+
+          # 2. base_params（あなたの前回コードと同じ）
+          base_params = (
+              "?autoplay=1&mute=0&controls=1&start=0&origin=https%3A%2F%2Fcreate.kahoot.it"
+              "&playsinline=1&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&fs=1"
+              "&cc_load_policy=0&enablejsapi=1&widgetid=1"
+              "&forigin=https%3A%2F%2Fcreate.kahoot.it%2Flearner%2Fcb8cb5ae-d835-4c4a-bc2d-9cc78519d646"
+              "%2Fcourse%2F6fba06e3-1f76-47a8-9a4a-53c53eb86286%2F0"
+              "&aoriginsup=1&vf=6"
+          )
+
+          # 3. パラメータ生成関数
+          def make_config(k, hide):
+              cfg = {"enc": k, "hideTitle": hide}
+              json_str = json.dumps(cfg, separators=(",", ":"))
+              return f"{base_params}&embed_config={urllib.parse.quote(json_str)}"
+
+          param1 = make_config(key_value, False)
+          param2 = make_config(key_value, True)
+
+          # 4. 保存先ディレクトリ
+          os.makedirs("edu", exist_ok=True)
+
+          with open("edu/key1.txt", "w") as f:
+              f.write(param1)
+
+          with open("edu/key2.txt", "w") as f:
+              f.write(param2)
+
+          print("Generated key1.txt and key2.txt successfully.")
+          EOF
+
+      - name: Commit & Push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add edu/key1.txt edu/key2.txt
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Sync Kahoot key from site repo"
+            git push
+          fi
