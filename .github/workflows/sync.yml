@@ -13,40 +13,45 @@ jobs:
       - name: Checkout destination repo (this repo)
         uses: actions/checkout@v4
         with:
-          # プライベートリポジトリへのプッシュ権限を持つPATを使用
           token: ${{ secrets.PAT }}
-          # 歴史をたどれるように取得（競合解決のため）
           fetch-depth: 0
 
       - name: Checkout source repo (site)
         uses: actions/checkout@v4
         with:
-          repository: woolisbest-4520/edu
-          path: site
+          repository: woolisbest-4520/site
+          path: site_repo
           token: ${{ secrets.PAT }}
 
       - name: Checkout wakame repo
         uses: actions/checkout@v4
         with:
           repository: siawaseok3/wakame
-          path: wakame
+          path: wakame_repo
           token: ${{ secrets.PAT }}
 
       - name: Sync selected files with rename
         run: |
           mkdir -p edu
 
-          # site → this repo
-          if [ -f site/tube/education/form.txt ]; then
-            cp site/tube/education/form.txt edu/edu.txt
-          fi
-          if [ -f site/tube/education/site.txt ]; then
-            cp site/tube/education/site.txt edu/ep.txt
+          # 1. siteリポジトリからファイルをコピー (強制上書き)
+          # パス: site_repo/tube/education/
+          if [ -d "site_repo/tube/education" ]; then
+            cp -f site_repo/tube/education/form.txt edu/edu.txt
+            cp -f site_repo/tube/education/site.txt edu/ep.txt
+            echo "Successfully synced from site repo."
+          else
+            echo "Error: Directory site_repo/tube/education not found."
+            exit 1
           fi
 
-          # wakame/video_config.json → edu/parameter.txt
-          if [ -f wakame/video_config.json ]; then
-            jq -r '.params' wakame/video_config.json > edu/parameter.txt
+          # 2. wakameリポジトリからJSONを抽出
+          if [ -f "wakame_repo/video_config.json" ]; then
+            jq -r '.params' wakame_repo/video_config.json > edu/parameter.txt
+            echo "Successfully synced from wakame repo."
+          else
+            echo "Error: video_config.json not found."
+            exit 1
           fi
 
       - name: Commit & Push changes
@@ -54,17 +59,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          git add .
+          # 変更があるか確認するために、edu/ フォルダをステージング
+          git add edu/
           
-          # 変更がある場合のみ処理
           if ! git diff --cached --quiet; then
-            git commit -m "Sync from site repo and wakame config"
+            git commit -m "Sync: Updates from site and wakame repos"
             
-            # 重要：リモートの最新状態を取り込んでからプッシュ（競合回避）
-            # checkout時にPATを使っているため、ここでも認証が維持されます
+            # リモートの最新（他のActionの実行結果など）を取り込んでからプッシュ
             git pull --rebase origin main
-            
             git push origin main
           else
-            echo "No changes detected. Skipping push."
+            echo "No changes to sync."
           fi
